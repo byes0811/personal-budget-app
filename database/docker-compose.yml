@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0          # Use the latest MySQL version
+    container_name: budget_mysql
+    restart: always
+    ports:
+      - "3307:3306"           # Expose MySQL on port 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password  # Root password for MySQL
+      MYSQL_DATABASE: budget_db           # Default database name
+      MYSQL_USER: budget_user             # Non-root user
+      MYSQL_PASSWORD: password1     # Non-root password
+    volumes:
+      - mysql_data:/var/lib/mysql         # Persistent storage for MySQL data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Run schema scripts
+volumes:
+  mysql_data:
+    driver: local
